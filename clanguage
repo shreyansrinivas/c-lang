@@ -1,0 +1,507 @@
+int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
+    int* result = (int*)malloc(2 * sizeof(int));
+    *returnSize = 2;
+    
+    for (int i = 0; i < numsSize; i++) {
+        for (int j = i + 1; j < numsSize; j++) {
+            if (nums[i] + nums[j] == target) {
+                result[0] = i;
+                result[1] = j;
+                return result;
+            }
+        }
+    }
+    
+    result[0] = 0;
+    result[1] = 1;
+    return result;
+}
+bool isPalindrome(int x){
+    if(x<0 || x!=0 && x%10 ==0 ) return false;
+    int check=0;
+    while(x>check){
+        check = check*10 + x%10;
+        x/=10;
+    }
+    return (x==check || x==check/10);
+}
+int DecimalNumericalPlace(char roman_np_value)
+    {
+        switch(roman_np_value)
+        {
+            case 'M':
+            return 1000;
+            break;
+
+             case 'D':
+            return 500;
+            break;
+
+            case 'C':
+            return 100;
+            break;
+
+             case 'L':
+            return 50;
+            break;
+
+             case 'X':
+            return 10;
+            break;
+
+             case 'V':
+            return 5;
+            break;
+
+            case 'I':
+            return 1;
+            break;
+            default :
+            return -1;
+        }
+    }
+int romanToInt(char * s)
+{
+    int len=strlen(s);
+    int sum=0;
+   for(int i=0;s[i]!='\0';i++){
+       if(DecimalNumericalPlace(s[i]) < DecimalNumericalPlace(s[i+1])){
+       sum = sum-DecimalNumericalPlace(s[i]);
+   }
+   else{
+   sum+=DecimalNumericalPlace(s[i]);
+   }
+   }
+    return sum;
+}
+bool isValid(char *s) {
+
+    char *q=s;
+    
+    for (char *p=s; *p; p++) 
+        switch(*p) {
+            case '(': *q++ = ')'; continue;
+            case '{': *q++ = '}'; continue;
+            case '[': *q++ = ']'; continue;
+            default: if (q==s || *p != *--q) return false;
+        }
+    
+    return q==s;
+}
+struct ListNode* mergeTwoLists(struct ListNode* l1, struct ListNode* l2) {
+        if(l1==NULL)
+            return l2;
+        if(l2==NULL)
+            return l1;
+        struct ListNode* t;
+        if(l1->val<l2->val){
+            t=l1;
+            l1=l1->next;
+        }else{
+            t=l2;
+            l2=l2->next;
+        }
+        struct ListNode* head=t;
+        while(l1!=NULL && l2!=NULL){
+            if(l1->val <= l2->val){
+                t->next=l1;
+                l1=l1->next;
+            }else{
+                t->next=l2;
+                l2=l2->next;
+            }
+            t=t->next;
+        }
+        if(l1==NULL)
+            t->next=l2;
+        else
+            t->next=l1;
+        return head;
+    
+}
+int removeDuplicates(int nums[], int numsSize) {
+    if (numsSize == 0)
+        return 0;
+    int index = 1;
+    for (int i = 1; i < numsSize; ++i) {
+        if (nums[i] != nums[i - 1]) {
+            nums[index] = nums[i];
+            ++index;
+        }
+    }
+    return index;
+}
+int searchInsert(int* nums, int numsSize, int target){
+    int left = 0, right = numsSize, mid;
+    
+    while(left < right) {
+        mid = left + (right - left) / 2;
+        
+        if (nums[mid] >= target) 
+            right = mid;            
+        else
+            left = mid + 1;
+    }
+    return left;
+}
+int lengthOfLastWord(char* s) {
+    int length=0,i,wordcounter=0;
+    for(i=0;s[i]!='\0';i++)
+    {
+        length++;
+    }
+    for(i=(length-1);s[i]==' ';i--)
+    {
+        if(s[i]==' ')
+        s[i]='\0';
+    }
+    for(i=0;s[i]!='\0';i++)
+    {
+        if(s[i]==' ')
+        {
+            wordcounter=0;
+            continue;
+        }
+        else
+        {
+            wordcounter++;
+        }
+    }
+    return wordcounter;
+    
+}
+int *plusOne(int *digits, int digitsSize, int *returnSize) {
+    *returnSize = digitsSize;
+    int *plusOne = malloc(digitsSize * sizeof(int));
+    if (plusOne == NULL)
+        return (NULL);
+    for (int i = 0; i < digitsSize; i++)
+        plusOne[i] = digits[i];
+    
+    plusOne[digitsSize - 1]++;
+    for (int i = digitsSize - 1; i - 1 >= 0; i--)
+        if (plusOne[i] == 10) {
+            plusOne[i] = 0;
+            plusOne[i - 1]++;
+        }
+
+    if (plusOne[0] == 10) {
+        (*returnSize)++;
+        plusOne = realloc(plusOne, *returnSize * sizeof(int));
+        if (plusOne == NULL)
+            return (NULL);
+        memmove(plusOne + 1, plusOne, digitsSize * sizeof(int));
+        plusOne[0] = 1;
+        plusOne[1] = 0;
+    }
+    return (plusOne);
+}
+char * addBinary(char * a, char * b){
+    int sizeA = strlen(a);
+    int sizeB = strlen(b);
+    int sizeOutput = (sizeA > sizeB ? sizeA : sizeB) + 1;
+    char * output = (char *)malloc(sizeOutput + 1);
+    int sum = 0;
+    
+    output[sizeOutput] = '\0';
+    
+    while(sizeA > 0 || sizeB > 0 || sum > 0) {
+        
+        if(sizeA > 0) {
+            sum += a[--sizeA] - '0';
+        }
+        if(sizeB > 0) {
+            sum += b[--sizeB] - '0';
+        }
+        output[--sizeOutput] = sum % 2 + '0';
+        sum /= 2;
+    }
+    return output + sizeOutput;   
+}
+int climbStairs(int n) {
+    long long int prv1 = 1;
+    long long int prv2 = 1;
+
+    for (int i = 0; i < n; i++) {
+        long long int tmp = prv1;
+        prv1 = prv1 + prv2;
+        prv2 = tmp;
+    }
+
+    return (int)prv2;
+}
+struct ListNode* deleteDuplicates(struct ListNode* head) {
+    struct ListNode* temp=head;
+    while (temp&&temp->next)
+    {
+        if (temp->next->val==temp->val)
+        {
+            temp->next=temp->next->next;
+            continue;
+        }
+        temp=temp->next;
+    }
+    return head;
+}
+int calculateArea(int height, int width) {
+    return height * width;
+}
+
+int largestRectangleArea(int* heights, int heightsSize) {
+    int* stack = (int*)malloc((heightsSize + 1) * sizeof(int));
+    int stackSize = 0;
+
+    int maxArea = 0;
+
+    for (int i = 0; i <= heightsSize; i++) {
+        int currentHeight = (i == heightsSize) ? 0 : heights[i];
+        while (stackSize > 0 && currentHeight < heights[stack[stackSize - 1]]) {
+            int poppedIndex = stack[--stackSize];
+            int poppedHeight = heights[poppedIndex];
+            int width = (stackSize == 0) ? i : i - stack[stackSize - 1] - 1;
+
+            maxArea = fmax(maxArea, calculateArea(poppedHeight, width));
+        }
+        stack[stackSize++] = i;
+    }
+
+    free(stack);
+
+    return maxArea;
+}
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n) {
+    int p1=m-1;
+    int p2=n-1;
+    int p=m+n-1;
+    while(p1>=0 && p2>=0){
+        if(nums1[p1]>nums2[p2])
+            nums1[p--]=nums1[p1--];
+        else
+        nums1[p--]=nums2[p2--];
+    }
+    while(p2>=0)
+     nums1[p--]=nums2[p2--];
+}
+int i=0;
+int arr[101]={0};
+void inorder(struct TreeNode* s)
+{
+    if(s!=NULL)
+    {
+        inorder(s->left);
+        arr[i++]=s->val;
+        inorder(s->right);
+    }
+}
+int* inorderTraversal(struct TreeNode* root, int* returnSize){
+    inorder(root);
+    int* ans=malloc(i*sizeof(int));
+    for(int j=0;j<i;j++) ans[j]=arr[j];
+    *(returnSize)=i;
+    i=0;
+    return ans;
+}
+bool isSameTree(struct TreeNode* p, struct TreeNode* q){
+        if(p == NULL && q == NULL) // Same Tree
+            return true;
+        if(p == NULL || q == NULL) // Different Size
+            return false;
+        if(p->val != q->val) // Different Nodes
+            return false;
+        return isSameTree(p->left,q->left) &&// check left subtree
+               isSameTree(p->right,q->right);// check right subtree
+}
+bool isMirror(struct TreeNode* left ,struct TreeNode* right){
+    if(!left && !right) return true;
+    if(!left || !right) return false;
+    return (left->val == right->val) && isMirror(left->left, right->right) && 
+    isMirror(left->right,right->left);
+}
+
+bool isSymmetric(struct TreeNode* root) {
+    if(!root) return NULL;
+    return isMirror(root->left , root->right);
+}
+int maxDepth(struct TreeNode* root){
+    if (!root)
+        return 0;
+    int left_depth= maxDepth(root->left);
+    int right_depth= maxDepth(root->right);
+    if(left_depth > right_depth)
+        return left_depth +1;
+    else
+        return right_depth +1;
+    
+}
+struct TreeNode* createNewNode(int val) {
+    struct TreeNode* newNode = (struct TreeNode*)malloc(sizeof(struct TreeNode));
+    newNode->val = val;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
+}
+
+struct TreeNode* res(int* nums, int l, int r) {
+    if (l > r)
+        return NULL;
+    int mid = l + (r - l) / 2; 
+    struct TreeNode* node = createNewNode(nums[mid]);
+    node->left = res(nums, l, mid - 1);
+    node->right = res(nums, mid + 1, r);
+    return node;
+}
+
+struct TreeNode* sortedArrayToBST(int* nums, int numsSize) {
+    return res(nums, 0, numsSize - 1);
+}
+int depth(struct TreeNode *root);
+
+bool isBalanced(struct TreeNode *root) {
+    if (root == NULL)
+        return true;
+        
+    return isBalanced(root->left) && 
+           isBalanced(root->right) &&
+           !(abs(depth(root->left) - depth(root->right)) > 1);
+}
+
+int depth(struct TreeNode *root) {
+    if (root == NULL)
+        return 0;
+        
+    return fmax(depth(root->left), depth(root->right)) + 1;
+}
+int minDepth(struct TreeNode* root){
+    int x,y;
+    if(root == NULL)
+        return 0;
+    else{
+    x=minDepth(root->left);
+    y=minDepth(root->right);
+    if ((x==0) ^ (y==0)) 
+    return (x>y?x:y)+1 ;
+    if(x > y)
+    return y + 1;
+    else
+    return x + 1;
+    }
+
+}
+int* getRow(int rowIndex, int* returnSize){
+
+
+        //challenge to use O(rowIndex) space
+        //at rowIndex, there are (rowIndex+1) space
+
+        int* ret = (int*)malloc(sizeof(int)*(rowIndex+1));
+        ret[0]=1; // base case on top
+        for (int i=1; i<rowIndex+1;i++){
+            ret[i]=1; //sets last index of current row to 1
+            int o=1;
+            for (int j=1; j<i;j++){ 
+                //sum up "prev row" index j-1 and j and put in j
+                //-> index j original value needs to be saved
+                ret[j] = o + ret[j];
+                o=ret[j]-o;
+            }
+        }
+
+        *returnSize=rowIndex+1;
+        return ret;
+
+
+
+}
+int maxProfit(int* prices, int pricesSize){
+    int profit = 0, min = prices[0], temp;
+    for(int i=1; i<pricesSize; i++){
+        if(prices[i]<min) min = prices[i];
+        temp = prices[i] - min;
+        if(temp > profit) profit = temp;
+    }
+    return profit;
+}
+bool isPalindrome(char * s) {
+    char* first = s;
+    char* last = s + strlen(s) - 1;
+
+    while (first <= last) {
+        if (isalnum(*first) && isalnum(*last)) {
+            if (tolower(*first++) != tolower(*last--)) return false;
+        }
+        else {
+            if (!isalnum(*first)) ++first;
+            if (!isalnum(*last)) --last;
+        }
+    }
+
+    return true;
+}
+int singleNumber(int* nums, int numsSize) {
+    int l=numsSize;
+        if(l==1)
+        return nums[0];
+        int c=0;
+        for(int i=0;i<l;i++)
+        {
+            c=0;
+            for(int j=0;j<l;j++)
+            {
+                if(i!=j&&nums[i]==nums[j])
+                {
+                    c++;
+                    break;
+                }
+            }
+            if(c==0){
+                c=nums[i];
+                break;
+            }
+        }
+        return c;
+}
+bool hasCycle(struct ListNode *head) {
+    // Initialize two node slow and fast point to the hesd node...
+    struct ListNode* fastptr = head;
+    struct ListNode* slowptr = head;
+    while(fastptr != NULL && fastptr->next != NULL){
+        // Move slow pointer by 1 node and fast at 2 at each step.
+        slowptr = slowptr->next;
+        fastptr = fastptr->next->next;
+        // If both the pointers meet at any point, then the cycle is present and return true...
+        if(slowptr == fastptr)
+            return true;
+    }
+    return false;
+}
+int* preorderTraversal(struct TreeNode* root, int* returnSize) {
+    if (root == NULL) {
+        *returnSize = 0;
+        return NULL;
+    }
+    struct TreeNode** stack = (struct TreeNode**)malloc(sizeof(struct TreeNode*));
+    int stackSize = 0;
+    int capacity = 1;
+    int* result = (int*)malloc(sizeof(int));
+    int resultSize = 0;
+    while (stackSize > 0 || root != NULL) {
+        while (root != NULL) {
+            result = (int*)realloc(result, (resultSize + 1) * sizeof(int));
+            result[resultSize++] = root->val;
+            if (root->right != NULL) {
+                if (stackSize >= capacity) {
+                    capacity *= 2;
+                    stack = (struct TreeNode**)realloc(stack, capacity * sizeof(struct TreeNode*));
+                }
+                stack[stackSize++] = root->right;
+            }
+            root = root->left;
+        }
+        if (stackSize > 0) {
+            root = stack[--stackSize];
+        }
+    }
+    free(stack);
+    *returnSize = resultSize;
+    return result;
+}
